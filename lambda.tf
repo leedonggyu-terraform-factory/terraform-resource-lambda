@@ -23,6 +23,6 @@ resource "aws_lambda_function" "function" {
 
   tags = var.lambda_common_attr
 
-  depends_on = [random_string.random]
+  depends_on = [random_string.random, null_resource.build]
 
 }
