@@ -1,6 +1,15 @@
 variable "lambda_policy" {
   description = "lambda 함수에 추가되는 정책입니다."
 
+  type = object({
+    Version = string
+    Statement = list(object({
+      Effect   = string
+      Action   = list(string)
+      Resource = string
+    }))
+  })
+
   default = {
     Version = "2012-10-17"
     Statement = [
@@ -16,6 +25,11 @@ variable "lambda_policy" {
 variable "lambda_common_attr" {
   description = "lambda 함수에 추가되는 공통 속성입니다."
 
+  type = object({
+    name = string
+    env  = string
+  })
+
   default = {
     name = "default"
     env  = "dev"
@@ -24,6 +38,12 @@ variable "lambda_common_attr" {
 
 variable "lambda_runtime_attr" {
   description = "lambda 함수에 추가되는 런타임 속성입니다."
+
+  type = object({
+    runtime  = string
+    handler  = string
+    filename = string
+  })
 
   default = {
     runtime  = "provided.al2"
@@ -35,6 +55,14 @@ variable "lambda_runtime_attr" {
 
 variable "lambda_computing_attr" {
   description = "lambda 함수에 추가되는 컴퓨팅 속성입니다."
+
+  type = object({
+    timeout        = number
+    memory         = number
+    logging_format = string
+    architecture   = string
+    environment    = map(string)
+  })
 
   default = {
     timeout        = 10
@@ -58,6 +86,12 @@ variable "lambda_computing_attr" {
 # }
 
 variable "is_auto_deploy" {
+  description = "lambda 함수 자동 배포 여부입니다."
+
+  type = object({
+    is_enable = bool
+  })
+
   default = {
     is_enable = true
   }
